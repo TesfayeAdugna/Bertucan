@@ -137,7 +137,12 @@ class MyCalendar extends StatelessWidget {
                                   .add(PrevMonthCalendar(month));
                             }
                           },
-                          child: _daysGridList(context, month),
+                          child: Column(children: [
+                            _daysGridList(context, month),
+                            ListTile(leading: CircleAvatar(backgroundColor: Colors.red), title: Text("በ ወር አበባ ላይ")),
+                            ListTile(leading: Container(height: 40,width:40, decoration: BoxDecoration(border: Border.all(color: Colors.orange), borderRadius: BorderRadius.all(Radius.circular(20))), ), title: Text("ጥሩ የ እርዝግዝና እድል")),
+                            ListTile(leading: CircleAvatar(backgroundColor: Colors.orange), title: Text("በጣም ከፍተኛ የ እርግዝና እድል")),
+                          ],)
                         )),
                       ],
                     );
@@ -289,7 +294,8 @@ class MyCalendar extends StatelessWidget {
         Text(
           "${dt.monthGeez} ${_dayNumbers[dt.day - 1]}, ${ConvertToEthiopic(dt.year)}",
           style: TextStyle(
-              fontSize: 3.0 * textMultiplier, fontWeight: FontWeight.w500),
+              fontSize: 3.0 * textMultiplier,
+              fontWeight: FontWeight.w500),
         ),
       ],
     );

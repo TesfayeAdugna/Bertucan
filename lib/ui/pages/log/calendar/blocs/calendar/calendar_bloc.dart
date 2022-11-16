@@ -12,5 +12,4 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     on<NextMonthCalendar>((event, emit) => emit(Month(event.currentMonth.nextMonth)));
     on<PrevMonthCalendar>((event, emit) => emit(Month(event.currentMonth.prevMonth)));
   }
-
 }
