@@ -235,11 +235,11 @@ class MyCalendar extends StatelessWidget {
         } else {
           // mark if currentday == today
           List monthDaysList = a.monthDays().toList();
-          if (monthDaysList[monthDaysList[0][3]][0] ==
+          if (monthDaysList[(index - monthDaysList[0][3]).toInt()][0] ==
                   EtDatetime.now().year &&
-              monthDaysList[monthDaysList[0][3]][1] ==
+              monthDaysList[(index - monthDaysList[0][3]).toInt()][1] ==
                   EtDatetime.now().month &&
-              monthDaysList[monthDaysList[0][3]][2] ==
+              monthDaysList[(index - monthDaysList[0][3]).toInt()][2] ==
                   EtDatetime.now().day) {
             return Padding(
               padding: EdgeInsets.symmetric(
@@ -250,7 +250,7 @@ class MyCalendar extends StatelessWidget {
                 height: 1.225 * heightMultiplier,
                 width: 2.315 * widthMultiplier,
                 child: Text(
-                  "${a.monthDays().toList()[a.monthDays().toList()[0][3]][2]}",
+                  "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
                   style: TextStyle(color: Colors.black),
                 ),
                 decoration: BoxDecoration(
@@ -269,7 +269,7 @@ class MyCalendar extends StatelessWidget {
               height: 1.225 * heightMultiplier,
               width: 2.315 * widthMultiplier,
               child: Text(
-                "${a.monthDays().toList()[a.monthDays().toList()[0][3]][2]}",
+                "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
                 style: TextStyle(color: Colors.black),
               ),
               decoration: BoxDecoration(
