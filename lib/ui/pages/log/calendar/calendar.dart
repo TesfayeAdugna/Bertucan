@@ -137,7 +137,7 @@ class MyCalendar extends StatelessWidget {
                                   .add(PrevMonthCalendar(month));
                             }
                           },
-                          child: Column(children: [
+                          child: ListView(children: [
                             _daysGridList(context, month),
                             Divider(),
                             ListTile(leading: CircleAvatar(backgroundColor: Colors.red), title: Text("በ ወር አበባ ላይ")),
@@ -211,6 +211,7 @@ class MyCalendar extends StatelessWidget {
     int valueAtIndex3 = a.monthDays().toList()[0][3];
     return GridView.count(
       shrinkWrap: true,
+      
       primary: false,
       padding: EdgeInsets.symmetric(
           horizontal: 0.694 * widthMultiplier,
