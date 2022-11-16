@@ -139,6 +139,7 @@ class MyCalendar extends StatelessWidget {
                           },
                           child: Column(children: [
                             _daysGridList(context, month),
+                            Divider(),
                             ListTile(leading: CircleAvatar(backgroundColor: Colors.red), title: Text("በ ወር አበባ ላይ")),
                             ListTile(leading: Container(height: 40,width:40, decoration: BoxDecoration(border: Border.all(color: Colors.orange), borderRadius: BorderRadius.all(Radius.circular(20))), ), title: Text("ጥሩ የ እርዝግዝና እድል")),
                             ListTile(leading: CircleAvatar(backgroundColor: Colors.orange), title: Text("በጣም ከፍተኛ የ እርግዝና እድል")),
@@ -259,7 +260,7 @@ class MyCalendar extends StatelessWidget {
                   style: TextStyle(color: Colors.black),
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.teal[300],
+                  color: Color.fromARGB(179, 116, 71, 183),
                   borderRadius: BorderRadius.circular(55),
                 ),
               ),
@@ -278,7 +279,7 @@ class MyCalendar extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ),
               decoration: BoxDecoration(
-                color: Colors.grey[300],
+                color: Colors.transparent,
                 borderRadius: BorderRadius.circular(80),
               ),
             ),
