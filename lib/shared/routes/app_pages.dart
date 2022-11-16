@@ -10,6 +10,7 @@ import 'package:bertucanfrontend/ui/pages/gbv/report_gbv_page.dart';
 import 'package:bertucanfrontend/ui/pages/home_page.dart';
 import 'package:bertucanfrontend/ui/pages/intro/into_page.dart';
 import 'package:bertucanfrontend/ui/pages/intro/questionnaire_page.dart';
+import 'package:bertucanfrontend/ui/pages/log/calendar/calendar.dart';
 import 'package:bertucanfrontend/ui/pages/log/chances_of_pregnancy_page.dart';
 import 'package:bertucanfrontend/ui/pages/log/cycles_history_page.dart';
 import 'package:bertucanfrontend/ui/pages/log/daily_detail_page.dart';
@@ -71,6 +72,10 @@ abstract class AppPages {
     GetPage(
       name: Routes.dailyDetailPage,
       page: () => const DailyDetailPage(),
+    ),
+    GetPage(
+      name: Routes.ethioCalendar, 
+      page: () => EthioCalendar(),
     ),
     GetPage(
       name: Routes.logPage,

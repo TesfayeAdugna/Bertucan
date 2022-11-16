@@ -16,6 +16,7 @@ abstract class Routes {
   static const reportGbvPage = "/report_gbv_page";
   static const logChancePregnancyPage = "/log_chance_pregnancy_page";
   static const symptomsPage = "/symptoms_page";
+  static const ethioCalendar = "/ethio_calendar";
   static const logPage = "/log_page";
   static const srhDetailPage = "/srh_detail_page";
   static const dailyDetailPage = "/daily_detail_page";

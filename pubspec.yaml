@@ -41,6 +41,9 @@ dependencies:
   flutter_local_notifications: ^9.7.0
   flutter_native_timezone: ^2.0.0
   http: ^0.13.4
+  equatable: ^2.0.5
+  abushakir: ^1.0.0
+  flutter_bloc: ^8.1.1
 
 dev_dependencies:
   flutter_test:

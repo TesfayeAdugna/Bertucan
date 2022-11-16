@@ -99,18 +99,6 @@ class LogPage extends StatelessWidget {
                 },
               ),
             ),
-            // Expanded(
-            //   child: SfDateRangePicker(
-            //     todayHighlightColor: AppTheme.primaryColor,
-            //     startRangeSelectionColor: AppTheme.primaryColor,
-            //     endRangeSelectionColor: AppTheme.primaryColor,
-            //     rangeSelectionColor: AppTheme.lightPink,
-            //     view: DateRangePickerView.month,
-            //     selectionMode: DateRangePickerSelectionMode.range,
-            //     enableMultiView: true,
-            //     navigationDirection: DateRangePickerNavigationDirection.vertical,
-            //   ),
-            // ),
             Divider(thickness: 1),
             Padding(
               padding: const EdgeInsets.all(8.0),

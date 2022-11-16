@@ -88,12 +88,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                 // ),
                               ],
                             ),
+                            Row(
+                              children: [
+                                IconButton(
+                                  tooltip: "Ethiopian",
+                                    onPressed: () {
+                                      Get.toNamed(Routes.ethioCalendar);
+                                    },
+                                    icon:
+                                        const Icon(Icons.calendar_month_outlined)),
                             IconButton(
+                              tooltip: "Gregorean",
                                 onPressed: () {
                                   Get.toNamed(Routes.logPage);
                                 },
                                 icon:
                                     const Icon(Icons.calendar_month_outlined)),
+                                    ],
+                            ),
                             // IconButton(
                             //     onPressed: () {
                             //       // Get.toNamed(Routes.notificationPage);
