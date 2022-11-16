@@ -26,7 +26,7 @@ class NextMonthCalendar extends CalendarEvent {
   const NextMonthCalendar(this.currentMonth);
 
   @override
-  List<Object> get props => [currentMonth.nextMonth ];
+  List<Object> get props => [currentMonth.nextMonth];
 
   @override
   String toString() => "Next Month's Calendar { Calendar: ${currentMonth.nextMonth} }";
@@ -38,7 +38,7 @@ class PrevMonthCalendar extends CalendarEvent {
   const PrevMonthCalendar(this.currentMonth);
 
   @override
-  List<Object> get props => [currentMonth.prevMonth ];
+  List<Object> get props => [currentMonth.prevMonth];
 
   @override
   String toString() => "Previous Month's Calendar { Calendar: ${currentMonth.prevMonth} }";

@@ -289,8 +289,7 @@ class MyCalendar extends StatelessWidget {
         Text(
           "${dt.monthGeez} ${_dayNumbers[dt.day - 1]}, ${ConvertToEthiopic(dt.year)}",
           style: TextStyle(
-              fontSize: 3.0 * textMultiplier,
-              fontWeight: FontWeight.w500),
+              fontSize: 3.0 * textMultiplier, fontWeight: FontWeight.w500),
         ),
       ],
     );
