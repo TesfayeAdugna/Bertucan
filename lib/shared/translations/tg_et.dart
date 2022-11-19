@@ -120,5 +120,6 @@ Map<String, String> tigrigna = {
   "password_canot_be_null": 'ናይ ምሽጥር ቃል ጥራሑ ክኾን ኣይኽእልን',
   "todays_cycle_day": "ናይ ሎምዓንቲ ዕለት ዑደት",
   "chance_of_getting_pregnant": "ጥንሲ ናይ ምትሓዝ ተኽእሎ",
-  "you_are_not_logged_in": "ናብ'ቲ መፍለዪ ሒሳብኪ ኣይኣተኽን"
+  "you_are_not_logged_in": "ናብ'ቲ መፍለዪ ሒሳብኪ ኣይኣተኽን",
+  "calendar" : "ዓውደ ኣዋርሕ"
 };

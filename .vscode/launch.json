@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "http://localhost:9405/#/home_page",
+            "request": "launch",
+            "url": "http://localhost:9405/#/home_page"
+        }
+    ]
+}

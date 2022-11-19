@@ -126,5 +126,7 @@ final Map<String, String> amharic = {
   "hi": "ሰላም",
   "high": "ከፍተኛ",
   "normal": 'የተለመደ',
-  "you_are_currently_on_period": "የወር አበባ ወቅት ላይ ነሽ"
+  "you_are_currently_on_period": "የወር አበባ ወቅት ላይ ነሽ",
+  "calendar": "የ ቀን መቁጠሪያ",
+  
 };

@@ -267,6 +267,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 10,
                     ),
+                    singleTile(
+                      iconData: Icons.calendar_month,
+                      label: 'calendar',
+                      extra: DropdownButton<Locale>(
+                          hint: LocalizedText(
+                            "calendar",
+                            style: AppTheme.hintTextStyle,
+                          ),
+                          onChanged: (value) {
+                            if (value != null) {
+                              _authController.setCal();
+                            }
+                          },
+                          items: const <DropdownMenuItem<Locale>>[
+                            DropdownMenuItem(
+                              value: Locale('en', 'US'),
+                              child: Text('Gregorian'),
+                            ),
+                            DropdownMenuItem(
+                              value: Locale('am', 'ET'),
+                              child: Text('Ethiopian'),
+                            ),
+                           
+                          ]),
+                    ),
+                    
                     _authController.user.id != -1
                         ? Column(
                             children: [

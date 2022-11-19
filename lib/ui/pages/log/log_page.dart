@@ -1,4 +1,5 @@
 import 'package:bertucanfrontend/shared/themes/app_theme.dart';
+import 'package:bertucanfrontend/ui/controllers/auth_controller.dart';
 import 'package:bertucanfrontend/ui/controllers/home_controller.dart';
 import 'package:bertucanfrontend/ui/widgets/localized_text.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class LogPage extends StatelessWidget {
   LogPage({Key? key}) : super(key: key);
   final DateRangePickerController _controller = DateRangePickerController();
   HomeController homeController = Get.find();
+  AuthController _authController = Get.find();
   DateTime? selectedDate;
   @override
   Widget build(BuildContext context) {

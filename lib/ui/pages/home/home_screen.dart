@@ -38,12 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Stack(
       children: [
         Obx(() {
           if (_homeController.predictedDates.isNotEmpty) {
             int periodIn = 0;
-            DateTime today = DateTime.now();
+            DateTime today = DateTime.now() ;
             if (today.isAfter(_homeController.currentMenstruation.startDate)) {
               if (today.isBefore(_homeController.currentMenstruation.endDate)) {
                 periodIn = 0;
@@ -90,17 +91,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Row(
                               children: [
-                                IconButton(
-                                  tooltip: "Ethiopian",
-                                    onPressed: () {
-                                      Get.toNamed(Routes.ethioCalendar);
-                                    },
-                                    icon:
-                                        const Icon(Icons.calendar_month_outlined)),
                             IconButton(
-                              tooltip: "Gregorean",
+                              tooltip: "Calendar",
                                 onPressed: () {
+                                  if (_authController.isEthio){
+                                    Get.toNamed(Routes.ethioCalendar);
+
+                                  }
+                                  else{
                                   Get.toNamed(Routes.logPage);
+
+
+                                  }
                                 },
                                 icon:
                                     const Icon(Icons.calendar_month_outlined)),

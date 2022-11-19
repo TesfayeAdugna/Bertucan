@@ -65,7 +65,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(
                           width: 3,
                         ),
-                        DropdownButton<Locale>(
+                        
+                        Row( children : [DropdownButton<Locale>(
                             hint: LocalizedText(
                               "set_language",
                               style: AppTheme.hintTextStyle,
@@ -93,6 +94,30 @@ class _SignUpPageState extends State<SignUpPage> {
                                 child: Text('English'),
                               )
                             ]),
+                            SizedBox(),
+                            singleTile (
+                      extra: DropdownButton<Locale>(
+                          hint: LocalizedText(
+                            "calendar",
+                            style: AppTheme.hintTextStyle,
+                          ),
+                          onChanged: (value) {
+                            if (value != null) {
+                              _authController.setCal();
+                            }
+                          },
+                          items: const <DropdownMenuItem<Locale>>[
+                            DropdownMenuItem(
+                              value: Locale('en', 'US'),
+                              child: Text('Gregorian'),
+                            ),
+                            DropdownMenuItem(
+                              value: Locale('am', 'ET'),
+                              child: Text('Ethiopian'),
+                            ),
+                           
+                          ])
+                     ) ]),
                       ],
                     ),
                   ),
@@ -280,3 +305,29 @@ class _SignUpPageState extends State<SignUpPage> {
     Get.back();
   }
 }
+
+  Widget singleTile(
+      {
+      Function()? onTap,
+      Widget? extra}) {
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 15,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                extra ?? SizedBox(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }

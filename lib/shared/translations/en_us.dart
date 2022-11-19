@@ -97,5 +97,6 @@ final Map<String, String> english = {
   "hi": "Hi",
   "high": "High",
   "normal": "Normal",
-  "you_are_currently_on_period": "You are on your period"
+  "you_are_currently_on_period": "You are on your period",
+  "calendar": "Calendar"
 };

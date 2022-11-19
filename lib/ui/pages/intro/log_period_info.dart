@@ -1,20 +1,26 @@
 import 'package:bertucanfrontend/core/models/simple_models.dart';
 import 'package:bertucanfrontend/shared/routes/app_routes.dart';
 import 'package:bertucanfrontend/shared/themes/app_theme.dart';
+import 'package:bertucanfrontend/ui/controllers/auth_controller.dart';
 import 'package:bertucanfrontend/ui/controllers/home_controller.dart';
+import 'package:bertucanfrontend/ui/pages/log/calendar/calendar.dart';
 import 'package:bertucanfrontend/ui/widgets/custom_textfield.dart';
 import 'package:bertucanfrontend/ui/widgets/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:bertucanfrontend/ui/pages/log/calendar/ethio_date_picker.dart';
 
 class LogPeriodInfoPage extends StatefulWidget {
   LogPeriodInfoPage({Key? key}) : super(key: key);
+
+  AuthController _authController = Get.find();
 
   @override
   State<LogPeriodInfoPage> createState() => _LogPeriodInfoPageState();
 }
 
 class _LogPeriodInfoPageState extends State<LogPeriodInfoPage> {
+  AuthController _authController = Get.find();
   final TextEditingController _periodLength = TextEditingController();
   final TextEditingController _periodComing = TextEditingController();
 
@@ -105,7 +111,12 @@ class _LogPeriodInfoPageState extends State<LogPeriodInfoPage> {
                                   textAlign: TextAlign.center,
                                 )),
                             onPressed: () {
-                              showDatePicker(
+                
+                              if (_authController.isEthio) {
+                                Get.to(EthioDatePicker());
+                              }
+                              else{
+                                Get.to(showDatePicker(
                                       context: context,
                                       initialDate: startDate,
                                       firstDate: DateTime.now()
@@ -117,7 +128,11 @@ class _LogPeriodInfoPageState extends State<LogPeriodInfoPage> {
                                     startDate = value;
                                   });
                                 }
-                              });
+                              }));
+
+                              }
+                              ;
+                              
                             });
                       }),
                     ),
