@@ -1,41 +1,10 @@
+import 'package:bertucanfrontend/ui/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:abushakir/abushakir.dart';
+import 'package:get/get.dart';
 import 'blocs/blocs.dart';
 import 'size_config.dart';
-
-const List<String> _dayNumbers = [
-  "፩",
-  "፪",
-  "፫",
-  "፬",
-  "፭",
-  "፮",
-  "፯",
-  "፰",
-  "፱",
-  "፲",
-  "፲፩",
-  "፲፪",
-  "፲፫",
-  "፲፬",
-  "፲፭",
-  "፲፮",
-  "፲፯",
-  "፲፰",
-  "፲፱",
-  "፳",
-  "፳፩",
-  "፳፪",
-  "፳፫",
-  "፳፬",
-  "፳፭",
-  "፳፮",
-  "፳፯",
-  "፳፰",
-  "፳፱",
-  "፴",
-];
 
 class EthioCalendar extends StatelessWidget {
   @override
@@ -60,9 +29,9 @@ class MyCalendar extends StatelessWidget {
   static double widthMultiplier = SizeConfig.widthMultiplier?.toDouble() ?? 1;
   static double heightMultiplier = SizeConfig.heightMultiplier?.toDouble() ?? 1;
 
-  EtDatetime _today = EtDatetime.now();
+  HomeController homeController = Get.find();
 
-  List<Text> _days = [
+  final List<Text> _days = [
     Text(
       "ሰ",
       style: TextStyle(
@@ -88,19 +57,6 @@ class MyCalendar extends StatelessWidget {
             fontSize: 2.08335 * textMultiplier, fontWeight: FontWeight.bold)),
   ];
 
-  String clockDivision(int hour) {
-    if (hour >= 0 && hour <= 4)
-      return "ከሌሊቱ";
-    else if (hour >= 5 && hour <= 9)
-      return "ከጠዋቱ";
-    else if (hour >= 10 && hour <= 12)
-      return "ከረፋዱ";
-    else if (hour >= 13 && hour <= 16)
-      return "ከሰአት";
-    else
-      return "ከምሽቱ";
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -109,48 +65,64 @@ class MyCalendar extends StatelessWidget {
         create: (BuildContext context) =>
             CalendarBloc(currentMoment: ETC.today()),
         child: Scaffold(
-          body: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: Icon(Icons.close)),
-                Expanded(child: BlocBuilder<CalendarBloc, CalendarState>(
-                  builder: (context, state) {
-                    final month = state.moment;
-                    return Column(
-                      children: <Widget>[
-                        Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: _nameAndActions(context, month)),
-                        _dayNames(),
-                        Expanded(
-                            child: GestureDetector(
-                          onPanEnd: (e) {
-                            if (e.velocity.pixelsPerSecond.dx < 0) {
-                              BlocProvider.of<CalendarBloc>(context)
-                                  .add(NextMonthCalendar(month));
-                            } else if (e.velocity.pixelsPerSecond.dx > 0) {
-                              BlocProvider.of<CalendarBloc>(context)
-                                  .add(PrevMonthCalendar(month));
-                            }
-                          },
-                          child: ListView(children: [
-                            _daysGridList(context, month),
-                            Divider(),
-                            ListTile(leading: CircleAvatar(backgroundColor: Colors.red), title: Text("በ ወር አበባ ላይ")),
-                            ListTile(leading: Container(height: 40,width:40, decoration: BoxDecoration(border: Border.all(color: Colors.orange), borderRadius: BorderRadius.all(Radius.circular(20))), ), title: Text("ጥሩ የ እርዝግዝና እድል")),
-                            ListTile(leading: CircleAvatar(backgroundColor: Colors.orange), title: Text("በጣም ከፍተኛ የ እርግዝና እድል")),
-                          ],)
-                        )),
-                      ],
-                    );
-                  },
-                )),
-              ],
-            ),
+          body: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close)),
+              Expanded(child: BlocBuilder<CalendarBloc, CalendarState>(
+                builder: (context, state) {
+                  final month = state.moment;
+                  return Column(
+                    children: <Widget>[
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: _nameAndActions(context, month)),
+                      _dayNames(),
+                      Expanded(
+                          child: GestureDetector(
+                              onPanEnd: (e) {
+                                if (e.velocity.pixelsPerSecond.dx < 0) {
+                                  BlocProvider.of<CalendarBloc>(context)
+                                      .add(NextMonthCalendar(month));
+                                } else if (e.velocity.pixelsPerSecond.dx > 0) {
+                                  BlocProvider.of<CalendarBloc>(context)
+                                      .add(PrevMonthCalendar(month));
+                                }
+                              },
+                              child: ListView(
+                                children: [
+                                  _daysGridList(context, month),
+                                  const Divider(),
+                                  const ListTile(
+                                      leading: CircleAvatar(
+                                          backgroundColor: Colors.red),
+                                      title: Text("በ ወር አበባ ላይ")),
+                                  ListTile(
+                                      leading: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.orange),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(20))),
+                                      ),
+                                      title: const Text("ጥሩ የ እርዝግዝና እድል")),
+                                  const ListTile(
+                                      leading: CircleAvatar(
+                                          backgroundColor: Colors.orange),
+                                      title: Text("በጣም ከፍተኛ የ እርግዝና እድል")),
+                                ],
+                              ))),
+                    ],
+                  );
+                },
+              )),
+            ],
           ),
         ),
       ),
@@ -164,7 +136,7 @@ class MyCalendar extends StatelessWidget {
         Row(
           children: [
             IconButton(
-              icon: Icon(Icons.chevron_left),
+              icon: const Icon(Icons.chevron_left),
               color: Colors.black,
               iconSize: 6.94 * imageSizeMultiplier,
               onPressed: () {
@@ -182,7 +154,7 @@ class MyCalendar extends StatelessWidget {
           ],
         ),
         IconButton(
-          icon: Icon(Icons.chevron_right),
+          icon: const Icon(Icons.chevron_right),
           iconSize: 6.94 * imageSizeMultiplier,
           onPressed: () {
             BlocProvider.of<CalendarBloc>(context).add(NextMonthCalendar(a));
@@ -206,12 +178,48 @@ class MyCalendar extends StatelessWidget {
   }
 
   Widget _daysGridList(BuildContext context, ETC a) {
-    int today;
     int lengthOfMonthdays = a.monthDays().toList().length;
     int valueAtIndex3 = a.monthDays().toList()[0][3];
+    // coloring work started here.
+    Set<String> RedDays = {};
+    Set<String> OrangeDays = {};
+    Set<String> LessOrangeDays = {};
+    DateTime firstday = DateTime.now();
+    DateTime lastday = DateTime.now().add(Duration(days: 366));
+    for (DateTime indexDay = DateTime(firstday.year, firstday.month, 1);
+        indexDay.isBefore(lastday);
+        indexDay = indexDay.add(Duration(days: 1))) {
+      EtDatetime ethiodate = EtDatetime.fromMillisecondsSinceEpoch(
+          indexDay.millisecondsSinceEpoch);
+      for (var element in homeController.predictedDates) {
+        if (indexDay.isBefore(element.endDate.add(Duration(days: 1))) &&
+            indexDay.isAfter(element.startDate)) {
+          RedDays.add(EtDatetime(
+                  year: ethiodate.year,
+                  month: ethiodate.month,
+                  day: ethiodate.day)
+              .toString());
+        } else if (element.pregnancyDate != null) {
+          if ((indexDay.difference(element.pregnancyDate!).abs().inDays <= 1)) {
+            OrangeDays.add(EtDatetime(
+                    year: ethiodate.year,
+                    month: ethiodate.month,
+                    day: ethiodate.day)
+                .toString());
+          } else if (indexDay.isBefore(
+                  element.pregnancyDate!.subtract(Duration(days: 2))) &&
+              indexDay.isAfter(element.endDate)) {
+            LessOrangeDays.add(EtDatetime(
+                    year: ethiodate.year,
+                    month: ethiodate.month,
+                    day: ethiodate.day)
+                .toString());
+          }
+        }
+      }
+    }
     return GridView.count(
       shrinkWrap: true,
-      
       primary: false,
       padding: EdgeInsets.symmetric(
           horizontal: 0.694 * widthMultiplier,
@@ -221,24 +229,7 @@ class MyCalendar extends StatelessWidget {
         if (a.monthDays().toList()[0][3] > 0 &&
             index < a.monthDays().toList()[0][3]) {
           // NULL printer
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: 0.98 * heightMultiplier,
-                horizontal: 1.852 * widthMultiplier),
-            child: Container(
-              alignment: Alignment.center,
-              height: 1.225 * heightMultiplier,
-              width: 2.315 * widthMultiplier,
-              child: Text(
-                "",
-                style: TextStyle(color: Colors.black),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(60),
-              ),
-            ),
-          );
+          return SizedBox();
         } else {
           // mark if currentday == today
           List monthDaysList = a.monthDays().toList();
@@ -258,48 +249,102 @@ class MyCalendar extends StatelessWidget {
                 width: 2.315 * widthMultiplier,
                 child: Text(
                   "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.white),
                 ),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(179, 116, 71, 183),
-                  borderRadius: BorderRadius.circular(55),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color.fromARGB(150, 187, 160, 222),
                 ),
               ),
             );
           }
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: 0.98 * heightMultiplier,
-                horizontal: 1.852 * widthMultiplier),
-            child: Container(
-              alignment: Alignment.center,
-              height: 1.225 * heightMultiplier,
-              width: 2.315 * widthMultiplier,
-              child: Text(
-                "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
-                style: TextStyle(color: Colors.black),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(80),
-              ),
-            ),
-          );
+          return RedDays.contains(EtDatetime(
+                      year: monthDaysList[(index - monthDaysList[0][3]).toInt()]
+                          [0],
+                      month: monthDaysList[(index - monthDaysList[0][3]).toInt()]
+                          [1],
+                      day: monthDaysList[(index - monthDaysList[0][3]).toInt()]
+                          [2])
+                  .toString())
+              ? Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 0.98 * heightMultiplier,
+                      horizontal: 1.852 * widthMultiplier),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 1.225 * heightMultiplier,
+                    width: 2.315 * widthMultiplier,
+                    child: Text(
+                      "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
+                  ),
+                )
+              : OrangeDays.contains(
+                      EtDatetime(year: monthDaysList[(index - monthDaysList[0][3]).toInt()][0], month: monthDaysList[(index - monthDaysList[0][3]).toInt()][1], day: monthDaysList[(index - monthDaysList[0][3]).toInt()][2])
+                          .toString())
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 0.98 * heightMultiplier,
+                          horizontal: 1.852 * widthMultiplier),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 1.225 * heightMultiplier,
+                        width: 2.315 * widthMultiplier,
+                        child: Text(
+                          "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    )
+                  : LessOrangeDays.contains(EtDatetime(
+                              year: monthDaysList[(index - monthDaysList[0][3]).toInt()][0],
+                              month: monthDaysList[(index - monthDaysList[0][3]).toInt()][1],
+                              day: monthDaysList[(index - monthDaysList[0][3]).toInt()][2])
+                          .toString())
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 0.98 * heightMultiplier,
+                              horizontal: 1.852 * widthMultiplier),
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 40,
+                            width: 40,
+                            child: Text(
+                              "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color.fromARGB(8, 255, 153, 0),
+                              border: Border.all(color: Colors.orange),
+                            ),
+                          ),
+                        )
+                      : Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 0.98 * heightMultiplier,
+                              horizontal: 1.852 * widthMultiplier),
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 1.225 * heightMultiplier,
+                            width: 2.315 * widthMultiplier,
+                            child: Text(
+                              "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        );
         }
       }),
-    );
-  }
-
-  Widget _myDate(EtDatetime dt) {
-    return Row(
-      children: <Widget>[
-        Text(
-          "${dt.monthGeez} ${_dayNumbers[dt.day - 1]}, ${ConvertToEthiopic(dt.year)}",
-          style: TextStyle(
-              fontSize: 3.0 * textMultiplier,
-              fontWeight: FontWeight.w500),
-        ),
-      ],
     );
   }
 }
