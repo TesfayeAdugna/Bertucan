@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:abushakir/abushakir.dart';
 import 'package:intl/intl.dart';
 
-
 class EthioSelectableDates extends StatelessWidget {
   final List<EtDatetime> selectableDates;
   final EtDatetime selectedDate;
@@ -18,13 +17,13 @@ class EthioSelectableDates extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, String> weekDays = {
-      "Mon":"ሰ",
-      "Tue":"ማ",
-      "Wed":"ረ",
-      "Thu":"ሐ",
-      "Fri":"አ",
-      "Sat":"ቅ",
-      "Sun":"እ"
+      "Mon": "ሰ",
+      "Tue": "ማ",
+      "Wed": "ረ",
+      "Thu": "ሐ",
+      "Fri": "አ",
+      "Sat": "ቅ",
+      "Sun": "እ"
     };
     return SizedBox(
         height: 55,
@@ -34,30 +33,31 @@ class EthioSelectableDates extends StatelessWidget {
           shrinkWrap: true,
           itemBuilder: (context, index) {
             final date = selectableDates[index];
-            final DateTime gregorian = DateTime.fromMillisecondsSinceEpoch(date.moment);
+            DateTime gregorian =
+                DateTime.fromMillisecondsSinceEpoch(date.moment);
             return InkWell(
               onTap: () {
-                EtDatetime.fromMillisecondsSinceEpoch(setSelectedDate(DateTime.fromMillisecondsSinceEpoch(date.moment)));
+                setSelectedDate(
+                    DateTime.fromMillisecondsSinceEpoch(date.moment));
               },
               child: Container(
                 margin: const EdgeInsets.only(right: 10),
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: selectedDate == date
+                  color: selectedDate.day == date.day
                       ? AppTheme.secondaryColor
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min, 
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("${weekDays[DateFormat.E().format(
-                          DateTime(gregorian.year, gregorian.month, gregorian.day))]}",
-                        style: AppTheme.greySubtitleStyle),
                     Text(
-                      "${date.day}",
+                        "${weekDays[DateFormat.E().format(DateTime(gregorian.year, gregorian.month, gregorian.day))]}",
+                        style: AppTheme.greySubtitleStyle),
+                    Text("${date.day}",
                         style: AppTheme.titleStyle4.copyWith(
-                            color: selectedDate == date
+                            color: selectedDate.day == date.day
                                 ? AppTheme.white
                                 : AppTheme.textBlack))
                   ],

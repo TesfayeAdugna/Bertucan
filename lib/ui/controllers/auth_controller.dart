@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   final IAuthRepository _authRepository;
-  bool _isEthioCal = false;
+  bool _isEthioCal = true;
 
   bool get isEthio => _isEthioCal;
 
