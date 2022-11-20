@@ -1,9 +1,12 @@
+import 'dart:collection';
 import 'dart:developer';
 
+import 'package:abushakir/abushakir.dart';
 import 'package:bertucanfrontend/core/models/simple_models.dart';
 import 'package:bertucanfrontend/shared/routes/app_routes.dart';
 import 'package:bertucanfrontend/shared/themes/app_theme.dart';
 import 'package:bertucanfrontend/ui/components/daily_insights.dart';
+import 'package:bertucanfrontend/ui/components/ethio_selectable_dates.dart';
 import 'package:bertucanfrontend/ui/components/phase_container.dart';
 import 'package:bertucanfrontend/ui/components/selectable_dates.dart';
 import 'package:bertucanfrontend/ui/controllers/auth_controller.dart';
@@ -29,6 +32,22 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeController _homeController = Get.find();
   final AuthController _authController = Get.find();
 
+  Map<int, String> Ethio_months = {
+    1: "መስከረም",
+    2: "ጥቅምት",
+    3: "ሕዳር",
+    4: "ታሕሣስ",
+    5: "ጥር",
+    6: "የካቲት",
+    7: "መጋቢት",
+    8: "ሚያዚያ",
+    9: "ግንቦት",
+    10: "ሰኔ",
+    11: "ሐምሌ",
+    12: "ነሐሴ",
+    13: "ጳጉሜ"
+  };
+
   @override
   void initState() {
     // TODO: implement initState
@@ -38,13 +57,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Stack(
       children: [
         Obx(() {
           if (_homeController.predictedDates.isNotEmpty) {
+            EtDatetime EthselectedDate = EtDatetime.fromMillisecondsSinceEpoch(
+                _homeController.selectedDate.millisecondsSinceEpoch);
+            List<EtDatetime> selectable_dates = [];
+            for (int i = 0; i < _homeController.selectableDates.length; i++) {
+              // convert to Ethiopian calendar
+              EtDatetime EthSelectableDate = EtDatetime.fromMillisecondsSinceEpoch(
+                  _homeController.selectableDates[i].millisecondsSinceEpoch);
+              selectable_dates.add(EthSelectableDate);
+            }
             int periodIn = 0;
-            DateTime today = DateTime.now() ;
+            DateTime today = DateTime.now();
             if (today.isAfter(_homeController.currentMenstruation.startDate)) {
               if (today.isBefore(_homeController.currentMenstruation.endDate)) {
                 periodIn = 0;
@@ -71,10 +98,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Row(
                               children: [
-                                Text(
-                                    DateFormat.yMMMd()
-                                        .format(_homeController.selectedDate),
-                                    style: AppTheme.titleStyle3),
+                                _authController.isEthio
+                                    ? Text(
+                                        "${Ethio_months[EthselectedDate.date["month"]]} ${EthselectedDate.day}, ${EthselectedDate.year}")
+                                    : Text(
+                                        DateFormat.yMMMd().format(
+                                            _homeController.selectedDate),
+                                        style: AppTheme.titleStyle3),
                                 SizedBox()
                                 // Align(
                                 //   alignment: Alignment.topLeft,
@@ -91,22 +121,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Row(
                               children: [
-                            IconButton(
-                              tooltip: "Calendar",
-                                onPressed: () {
-                                  if (_authController.isEthio){
-                                    Get.toNamed(Routes.ethioCalendar);
-
-                                  }
-                                  else{
-                                  Get.toNamed(Routes.logPage);
-
-
-                                  }
-                                },
-                                icon:
-                                    const Icon(Icons.calendar_month_outlined)),
-                                    ],
+                                IconButton(
+                                    tooltip: "Calendar",
+                                    onPressed: () {
+                                      if (_authController.isEthio) {
+                                        Get.toNamed(Routes.ethioCalendar);
+                                      } else {
+                                        Get.toNamed(Routes.logPage);
+                                      }
+                                    },
+                                    icon: const Icon(
+                                        Icons.calendar_month_outlined)),
+                              ],
                             ),
                             // IconButton(
                             //     onPressed: () {
@@ -120,11 +146,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             //     ))
                           ],
                         ),
-                        SelectableDates(
-                          selectedDate: _homeController.selectedDate,
-                          setSelectedDate: _homeController.setSelectedDate,
-                          selectableDates: _homeController.selectableDates,
-                        ),
+                        if (_authController.isEthio) EthioSelectableDates(
+                                selectedDate: EthselectedDate,
+                                setSelectedDate:
+                                    _homeController.setSelectedDate,
+                                selectableDates: selectable_dates,
+                              ) else SelectableDates(
+                                selectedDate: _homeController.selectedDate,
+                                setSelectedDate:
+                                    _homeController.setSelectedDate,
+                                selectableDates:
+                                    _homeController.selectableDates,
+                              ),
                         const SizedBox(height: 20),
                         PhaseContainer(
                             data: _homeController.getMenstruationCycleForDate(
