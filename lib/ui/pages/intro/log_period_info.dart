@@ -30,6 +30,8 @@ class _LogPeriodInfoPageState extends State<LogPeriodInfoPage> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Material(
         child: Container(
       width: MediaQuery.of(context).size.width * 0.9,
@@ -111,28 +113,38 @@ class _LogPeriodInfoPageState extends State<LogPeriodInfoPage> {
                                   textAlign: TextAlign.center,
                                 )),
                             onPressed: () {
-                
                               if (_authController.isEthio) {
-                                Get.to(EthioDatePicker());
-                              }
-                              else{
+                                showDialog(
+                                    barrierDismissible: false,
+                                    useSafeArea: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                          contentPadding:
+                                              const EdgeInsets.all(0),
+                                              scrollable: true,
+                                          content: SizedBox(
+                                              height: 0.85 * height,
+                                              width: 0.85 * width,
+                                              child:
+                                                  SelectableEthioCalendar()));
+                                    });
+                              } else {
                                 Get.to(showDatePicker(
-                                      context: context,
-                                      initialDate: startDate,
-                                      firstDate: DateTime.now()
-                                          .subtract(Duration(days: 30)),
-                                      lastDate: DateTime.now())
-                                  .then((value) {
-                                if (value != null) {
-                                  setState(() {
-                                    startDate = value;
-                                  });
-                                }
-                              }));
-
+                                        context: context,
+                                        initialDate: startDate,
+                                        firstDate: DateTime.now()
+                                            .subtract(Duration(days: 30)),
+                                        lastDate: DateTime.now())
+                                    .then((value) {
+                                  if (value != null) {
+                                    setState(() {
+                                      startDate = value;
+                                    });
+                                  }
+                                }));
                               }
                               ;
-                              
                             });
                       }),
                     ),
