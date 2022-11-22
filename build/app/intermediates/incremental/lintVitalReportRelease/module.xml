@@ -1,0 +1,18 @@
+<lint-module
+    format="1"
+    dir="/home/tesfaye/Desktop/Bertucan/android/app"
+    name=":app"
+    type="APP"
+    maven="android:app:"
+    gradle="7.1.2"
+    buildFolder="/home/tesfaye/Desktop/Bertucan/build/app"
+    bootClassPath="/home/tesfaye/Android/Sdk/platforms/android-33/android.jar:/home/tesfaye/Android/Sdk/build-tools/30.0.3/core-lambda-stubs.jar"
+    javaSourceLevel="1.8"
+    compileTarget="android-33">
+  <lintOptions
+      abortOnError="true"
+      absolutePaths="true"
+      checkReleaseBuilds="true"
+      explainIssues="true"/>
+  <variant name="release"/>
+</lint-module>
