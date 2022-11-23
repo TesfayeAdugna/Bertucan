@@ -1,4 +1,0 @@
-#Mon Nov 21 08:46:28 EAT 2022
-base.0=/home/tesfaye/Desktop/Bertucan/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
