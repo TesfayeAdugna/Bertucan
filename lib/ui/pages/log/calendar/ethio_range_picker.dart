@@ -11,14 +11,14 @@ class RangePickerEthioCalendar extends StatefulWidget {
 }
 
 class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
-  static double imageSizeMultiplier =
-      SizeConfig.imageSizeMultiplier?.toDouble() ?? 1;
   static double widthMultiplier = SizeConfig.widthMultiplier?.toDouble() ?? 1;
   static double heightMultiplier = SizeConfig.heightMultiplier?.toDouble() ?? 1;
 
   EtDatetime startDate = EtDatetime.now();
   EtDatetime endDate = EtDatetime.now();
   bool flag = true;
+  bool isstartDateSelected = false;
+  bool isEndDateSelected = false;
 
   final List<Text> _days = [
     const Text(
@@ -101,9 +101,12 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
     );
   }
 
-  Widget _nameAndActions(BuildContext prevcontext, BuildContext context, ETC a) {
+  Widget _nameAndActions(
+      BuildContext prevcontext, BuildContext context, ETC a) {
     ETC slectedETCStartDate =
         ETC(year: startDate.year, month: startDate.month, day: startDate.day);
+    ETC slectedETCEndDate =
+        ETC(year: endDate.year, month: endDate.month, day: endDate.day);
     return Column(
       children: [
         Container(
@@ -134,21 +137,24 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                           style: TextStyle(color: Colors.white70)))
                 ],
               ),
-              Text(
+              const Text(
                 "የቀን ክልል ይምረጡ",
                 style: TextStyle(color: Colors.white),
               ),
-              Text(
-                "የመጀመሪያ ቀን - የመጨረሻ ቀን",
-                style: TextStyle(color: Colors.white70, fontSize: 24),
-              )
-              // Text(
-              //   "${(slected_ETC_date.monthDays(weekDayName: true).toList())[slected_ETC_date.day - 1][3]}, ${slected_ETC_date.monthName} ${slected_ETC_date.day}",
-              //   style: const TextStyle(
-              //       fontSize: 24,
-              //       fontWeight: FontWeight.bold,
-              //       color: Colors.white),
-              // ),
+              isEndDateSelected && isstartDateSelected
+                  ? Text(
+                      "${slectedETCStartDate.monthName} ${slectedETCStartDate.day} - ${slectedETCEndDate.monthName} ${slectedETCEndDate.day}",
+                      style: const TextStyle(color: Colors.white70, fontSize: 24),
+                    )
+                  : isstartDateSelected && !isEndDateSelected
+                      ? Text(
+                          "${slectedETCStartDate.monthName} ${slectedETCStartDate.day} - የመጨረሻ ቀን",
+                          style: const TextStyle(color: Colors.white70, fontSize: 24),
+                        )
+                      : const Text(
+                          "የመጀመሪያ ቀን - የመጨረሻ ቀን",
+                          style: TextStyle(color: Colors.white70, fontSize: 24),
+                        ),
             ],
           ),
         ),
@@ -173,7 +179,7 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 0.694 * widthMultiplier),
+          padding: EdgeInsets.only(left: 6.0 * widthMultiplier),
           child: Text("${a.monthName} ${a.year}"),
         ),
         GridView.count(
@@ -207,7 +213,21 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                     return GestureDetector(
                         onTap: () {
                           setState(() {
-                            startDate = current_date;
+                            if (!isstartDateSelected && !isEndDateSelected) {
+                              startDate = current_date;
+                              endDate = current_date;
+                              isstartDateSelected = true;
+                            } else if (isstartDateSelected &&
+                                !isEndDateSelected &&
+                                current_date.isAfter(startDate
+                                    .subtract(const Duration(days: 1)))) {
+                              endDate = current_date;
+                              isEndDateSelected = true;
+                            } else {
+                              startDate = current_date;
+                              endDate = current_date;
+                              isEndDateSelected = false;
+                            }
                           });
                         },
                         child: Container(
@@ -224,10 +244,11 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                           ),
                           child: Text(
                             "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
-                            style: TextStyle(color: current_date.day == startDate.day &&
-                                  current_date.month == startDate.month
-                              ? Colors.white
-                              :Colors.black),
+                            style: TextStyle(
+                                color: current_date.day == startDate.day &&
+                                        current_date.month == startDate.month
+                                    ? Colors.white
+                                    : Colors.black),
                           ),
                         ));
                   } else if (current_date.isAfter(EtDatetime.now())) {
@@ -240,11 +261,26 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                           style: const TextStyle(color: Colors.black45),
                         ));
                   } else if (current_date.isAfter(startDate) &&
-                      current_date.isBefore(endDate.add(const Duration(days: 1)))) {
+                      current_date
+                          .isBefore(endDate.add(const Duration(days: 1)))) {
                     return GestureDetector(
                         onTap: () {
                           setState(() {
-                            startDate = current_date;
+                            if (!isstartDateSelected && !isEndDateSelected) {
+                              startDate = current_date;
+                              endDate = current_date;
+                              isstartDateSelected = true;
+                            } else if (isstartDateSelected &&
+                                !isEndDateSelected &&
+                                current_date.isAfter(startDate
+                                    .subtract(const Duration(days: 1)))) {
+                              endDate = current_date;
+                              isEndDateSelected = true;
+                            } else {
+                              startDate = current_date;
+                              endDate = current_date;
+                              isEndDateSelected = false;
+                            }
                           });
                         },
                         child: Container(
@@ -254,14 +290,43 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                             style: const TextStyle(color: Colors.white),
                           ),
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(104, 255, 153, 0),
-                          ),
+                          color: (current_date.day == startDate.day &&
+                                  current_date.month == startDate.month) || (current_date.day == endDate.day &&
+                                  current_date.month == endDate.month)
+                              ? Colors.orange
+                              : Color.fromARGB(104, 255, 153, 0),
+                          borderRadius: (current_date.day == startDate.day &&
+                                  current_date.month == startDate.month)
+                              ? const BorderRadius.only(
+                                  bottomLeft: Radius.circular(80),
+                                  topLeft: Radius.circular(80))
+                              : (current_date.day == endDate.day &&
+                                      current_date.month == endDate.month)
+                                  ? const BorderRadius.only(
+                                      bottomRight: Radius.circular(80),
+                                      topRight: Radius.circular(80))
+                                  : BorderRadius.zero,
+                        ),
                         ));
                   }
                   return GestureDetector(
                       onTap: () {
                         setState(() {
-                          startDate = current_date;
+                          if (!isstartDateSelected && !isEndDateSelected) {
+                            startDate = current_date;
+                            endDate = current_date;
+                            isstartDateSelected = true;
+                          } else if (isstartDateSelected &&
+                              !isEndDateSelected &&
+                              current_date.isAfter(startDate
+                                  .subtract(const Duration(days: 1)))) {
+                            endDate = current_date;
+                            isEndDateSelected = true;
+                          } else {
+                            startDate = current_date;
+                            endDate = current_date;
+                            isEndDateSelected = false;
+                          }
                         });
                       },
                       child: Container(
@@ -269,18 +334,30 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                         height: 1.225 * heightMultiplier,
                         width: 2.315 * widthMultiplier,
                         decoration: BoxDecoration(
-                          color: current_date.day == startDate.day &&
-                                  current_date.month == startDate.month
+                          color: (current_date.day == startDate.day &&
+                                  current_date.month == startDate.month) || (current_date.day == endDate.day &&
+                                  current_date.month == endDate.month)
                               ? Colors.orange
                               : Colors.transparent,
-                          borderRadius: BorderRadius.circular(80),
+                          borderRadius: (current_date.day == startDate.day &&
+                                  current_date.month == startDate.month)
+                              ? const BorderRadius.only(
+                                  bottomLeft: Radius.circular(80),
+                                  topLeft: Radius.circular(80))
+                              : (current_date.day == endDate.day &&
+                                      current_date.month == endDate.month)
+                                  ? const BorderRadius.only(
+                                      bottomRight: Radius.circular(80),
+                                      topRight: Radius.circular(80))
+                                  : BorderRadius.circular(80),
                         ),
                         child: Text(
                           "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
-                          style: TextStyle(color: current_date.day == startDate.day &&
-                                  current_date.month == startDate.month
-                              ? Colors.white
-                              :Colors.black),
+                          style: TextStyle(
+                              color: current_date.day == startDate.day &&
+                                      current_date.month == startDate.month
+                                  ? Colors.white
+                                  : Colors.black),
                         ),
                       ));
                 }
