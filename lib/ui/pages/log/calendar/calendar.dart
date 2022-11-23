@@ -1,4 +1,5 @@
 import 'package:bertucanfrontend/ui/controllers/home_controller.dart';
+import 'package:bertucanfrontend/ui/widgets/ethio_day_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:abushakir/abushakir.dart';
@@ -31,31 +32,7 @@ class MyCalendar extends StatelessWidget {
 
   HomeController homeController = Get.find();
 
-  final List<Text> _days = [
-    Text(
-      "ሰ",
-      style: TextStyle(
-          fontSize: 2.08335 * textMultiplier, fontWeight: FontWeight.bold),
-    ),
-    Text("ማ",
-        style: TextStyle(
-            fontSize: 2.08335 * textMultiplier, fontWeight: FontWeight.bold)),
-    Text("ረ",
-        style: TextStyle(
-            fontSize: 2.08335 * textMultiplier, fontWeight: FontWeight.bold)),
-    Text("ሐ",
-        style: TextStyle(
-            fontSize: 2.08335 * textMultiplier, fontWeight: FontWeight.bold)),
-    Text("አ",
-        style: TextStyle(
-            fontSize: 2.08335 * textMultiplier, fontWeight: FontWeight.bold)),
-    Text("ቅ",
-        style: TextStyle(
-            fontSize: 2.08335 * textMultiplier, fontWeight: FontWeight.bold)),
-    Text("እ",
-        style: TextStyle(
-            fontSize: 2.08335 * textMultiplier, fontWeight: FontWeight.bold)),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +58,7 @@ class MyCalendar extends StatelessWidget {
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           child: _nameAndActions(context, month)),
-                      _dayNames(),
+                      DayNames(),
                       Expanded(
                           child: GestureDetector(
                               onPanEnd: (e) {
@@ -165,18 +142,7 @@ class MyCalendar extends StatelessWidget {
     );
   }
 
-  Widget _dayNames() {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: _days.asMap().entries.map((MapEntry map) {
-          return Container(
-            child: map.value,
-            padding: EdgeInsets.symmetric(
-                horizontal: 4.63 * widthMultiplier,
-                vertical: 1.838 * heightMultiplier),
-          );
-        }).toList());
-  }
+  
 
   Widget _daysGridList(BuildContext context, ETC a) {
     int lengthOfMonthdays = a.monthDays().toList().length;

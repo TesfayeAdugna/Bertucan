@@ -5,6 +5,7 @@ import 'package:abushakir/abushakir.dart';
 import 'blocs/blocs.dart';
 import 'size_config.dart';
 import 'package:get/get.dart';
+import 'package:bertucanfrontend/ui/widgets/ethio_day_names.dart';
 
 class SelectableEthioCalendar extends StatefulWidget {
   @override
@@ -22,25 +23,6 @@ class _SelectableEthioCalendarState extends State<SelectableEthioCalendar> {
 
   EtDatetime selected_date = EtDatetime.now();
   bool flag = true;
-
-  final List<Text> _days = [
-    const Text(
-      "ሰ",
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-    ),
-    const Text("ማ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-    const Text("ረ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-    const Text("ሐ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-    const Text("አ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-    const Text("ቅ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-    const Text("እ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +48,7 @@ class _SelectableEthioCalendarState extends State<SelectableEthioCalendar> {
                           return Column(
                             children: <Widget>[
                               _nameAndActions(context, month),
-                              _dayNames(),
+                              DayNames(),
                               Expanded(
                                   child: GestureDetector(
                                       onPanEnd: (e) {
@@ -213,16 +195,6 @@ class _SelectableEthioCalendarState extends State<SelectableEthioCalendar> {
     );
   }
 
-  Widget _dayNames() {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: _days.asMap().entries.map((MapEntry map) {
-          return Container(
-            child: map.value,
-          );
-        }).toList());
-  }
-
   Widget _daysGridList(BuildContext context, ETC a) {
     int lengthOfMonthdays = a.monthDays().toList().length;
     int valueAtIndex3 = a.monthDays().toList()[0][3];
@@ -266,10 +238,8 @@ class _SelectableEthioCalendarState extends State<SelectableEthioCalendar> {
                         style: const TextStyle(color: Colors.black),
                       ),
                       decoration: BoxDecoration(
-                        color: current_date.day ==
-                                    selected_date.day&&
-                                current_date.month ==
-                                    selected_date.month
+                        color: current_date.day == selected_date.day &&
+                                current_date.month == selected_date.month
                             ? Colors.orange
                             : Colors.white,
                         border: Border.all(color: Colors.orange),

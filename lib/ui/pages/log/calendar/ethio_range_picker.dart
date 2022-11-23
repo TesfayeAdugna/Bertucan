@@ -1,3 +1,4 @@
+import 'package:bertucanfrontend/ui/widgets/ethio_day_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:abushakir/abushakir.dart';
@@ -20,24 +21,6 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
   bool isstartDateSelected = false;
   bool isEndDateSelected = false;
 
-  final List<Text> _days = [
-    const Text(
-      "ሰ",
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-    ),
-    const Text("ማ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-    const Text("ረ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-    const Text("ሐ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-    const Text("አ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-    const Text("ቅ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-    const Text("እ",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +62,7 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 1.838 * heightMultiplier),
-                                child: _dayNames(),
+                                child: DayNames(),
                               ),
                               Expanded(
                                   child: ListView(
@@ -162,15 +145,7 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
     );
   }
 
-  Widget _dayNames() {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: _days.asMap().entries.map((MapEntry map) {
-          return Container(
-            child: map.value,
-          );
-        }).toList());
-  }
+
 
   Widget _daysGridList(BuildContext context, ETC a) {
     int lengthOfMonthdays = a.monthDays().toList().length;
