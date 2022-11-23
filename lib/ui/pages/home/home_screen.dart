@@ -12,6 +12,7 @@ import 'package:bertucanfrontend/ui/components/selectable_dates.dart';
 import 'package:bertucanfrontend/ui/controllers/auth_controller.dart';
 import 'package:bertucanfrontend/ui/controllers/home_controller.dart';
 import 'package:bertucanfrontend/ui/pages/intro/log_period_info.dart';
+import 'package:bertucanfrontend/ui/pages/log/calendar/ethio_range_picker.dart';
 import 'package:bertucanfrontend/ui/widgets/ModalProgressHUD.dart';
 import 'package:bertucanfrontend/ui/widgets/localized_text.dart';
 import 'package:bertucanfrontend/ui/widgets/rounded_button.dart';
@@ -66,8 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
             List<EtDatetime> selectable_dates = [];
             for (int i = 0; i < _homeController.selectableDates.length; i++) {
               // convert to Ethiopian calendar
-              EtDatetime EthSelectableDate = EtDatetime.fromMillisecondsSinceEpoch(
-                  _homeController.selectableDates[i].millisecondsSinceEpoch);
+              EtDatetime EthSelectableDate =
+                  EtDatetime.fromMillisecondsSinceEpoch(_homeController
+                      .selectableDates[i].millisecondsSinceEpoch);
               selectable_dates.add(EthSelectableDate);
             }
             int periodIn = 0;
@@ -146,18 +148,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             //     ))
                           ],
                         ),
-                        if (_authController.isEthio) EthioSelectableDates(
-                                selectedDate: EthselectedDate,
-                                setSelectedDate:
-                                    _homeController.setSelectedDate,
-                                selectableDates: selectable_dates,
-                              ) else SelectableDates(
-                                selectedDate: _homeController.selectedDate,
-                                setSelectedDate:
-                                    _homeController.setSelectedDate,
-                                selectableDates:
-                                    _homeController.selectableDates,
-                              ),
+                        if (_authController.isEthio)
+                          EthioSelectableDates(
+                            selectedDate: EthselectedDate,
+                            setSelectedDate: _homeController.setSelectedDate,
+                            selectableDates: selectable_dates,
+                          )
+                        else
+                          SelectableDates(
+                            selectedDate: _homeController.selectedDate,
+                            setSelectedDate: _homeController.setSelectedDate,
+                            selectableDates: _homeController.selectableDates,
+                          ),
                         const SizedBox(height: 20),
                         PhaseContainer(
                             data: _homeController.getMenstruationCycleForDate(
@@ -337,20 +339,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Builder(builder: (context) {
                                   return InkWell(
                                     onTap: () async {
-                                      await showDateRangePicker(
-                                              context: context,
-                                              firstDate: DateTime.now()
-                                                  .subtract(
-                                                      Duration(days: 365)),
-                                              lastDate: DateTime.now())
-                                          .then((value) {
-                                        if (value != null) {
-                                          _homeController.addPreviousCycle(
-                                              MonthlyMensturationModel(
-                                                  startDate: value.start,
-                                                  endDate: value.end));
-                                        }
-                                      });
+                                      if (_authController.isEthio) {
+                                        Get.to(RangePickerEthioCalendar());
+                                      } else {
+                                        await showDateRangePicker(
+                                                context: context,
+                                                firstDate: DateTime.now()
+                                                    .subtract(
+                                                        Duration(days: 365)),
+                                                lastDate: DateTime.now())
+                                            .then((value) {
+                                          if (value != null) {
+                                            _homeController.addPreviousCycle(
+                                                MonthlyMensturationModel(
+                                                    startDate: value.start,
+                                                    endDate: value.end));
+                                          }
+                                        });
+                                      }
                                     },
                                     child: Container(
                                       margin: const EdgeInsets.symmetric(
