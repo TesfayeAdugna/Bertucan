@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:abushakir/abushakir.dart';
 
 import 'package:bertucanfrontend/core/adapters/home_adapter.dart';
 import 'package:bertucanfrontend/core/models/simple_models.dart';
@@ -11,6 +12,15 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   final IHomeRepository _repository;
   HomeController(this._repository);
+
+  EtDatetime _selectedPeriodDate = EtDatetime.now();
+
+  EtDatetime get selectedPeriodDate => _selectedPeriodDate;
+
+  void setSelectedPeriodDate(date) {
+    _selectedPeriodDate = date;
+    update();
+  }
 
   final _selectedDate = DateTime.now().obs;
   DateTime get selectedDate => _selectedDate.value;

@@ -12,7 +12,7 @@ import 'package:bertucanfrontend/ui/pages/log/calendar/ethio_date_picker.dart';
 
 class LogPeriodInfoPage extends StatefulWidget {
   LogPeriodInfoPage({Key? key}) : super(key: key);
-
+  bool isPeriodGoing = true;
   AuthController _authController = Get.find();
 
   @override
@@ -21,6 +21,7 @@ class LogPeriodInfoPage extends StatefulWidget {
 
 class _LogPeriodInfoPageState extends State<LogPeriodInfoPage> {
   AuthController _authController = Get.find();
+  HomeController _homeController = Get.find();
   final TextEditingController _periodLength = TextEditingController();
   final TextEditingController _periodComing = TextEditingController();
 
@@ -115,20 +116,24 @@ class _LogPeriodInfoPageState extends State<LogPeriodInfoPage> {
                             onPressed: () {
                               if (_authController.isEthio) {
                                 showDialog(
-                                    barrierDismissible: false,
-                                    useSafeArea: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                          contentPadding:
-                                              const EdgeInsets.all(0),
+                                        barrierDismissible: false,
+                                        useSafeArea: false,
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                              contentPadding:
+                                                  const EdgeInsets.all(0),
                                               scrollable: true,
-                                          content: SizedBox(
-                                              height: 0.85 * height,
-                                              width: 0.85 * width,
-                                              child:
-                                                  SelectableEthioCalendar()));
-                                    });
+                                              content: SizedBox(
+                                                  height: 0.85 * height,
+                                                  width: 0.85 * width,
+                                                  child:
+                                                      SelectableEthioCalendar()));
+                                        })
+                                    .then((_) => startDate =
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                            _homeController
+                                                .selectedPeriodDate.moment));
                               } else {
                                 Get.to(showDatePicker(
                                         context: context,
@@ -192,7 +197,7 @@ class _LogPeriodInfoPageState extends State<LogPeriodInfoPage> {
       colorScheme: _shrineColorScheme,
       toggleableActiveColor: AppTheme.primaryColor,
       accentColor: AppTheme.primaryColor,
-      primaryColor: AppTheme.primaryColor,
+      primaryColor: Color.fromARGB(255, 63, 45, 32),
       buttonColor: AppTheme.primaryColor,
       scaffoldBackgroundColor: Colors.white,
       cardColor: Colors.white,

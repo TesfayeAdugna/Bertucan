@@ -60,12 +60,13 @@ class MyCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       home: BlocProvider<CalendarBloc>(
         create: (BuildContext context) =>
             CalendarBloc(currentMoment: ETC.today()),
         child: Scaffold(
-          body: Column(
+          body: SafeArea(child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -126,7 +127,7 @@ class MyCalendar extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 
   Widget _nameAndActions(BuildContext context, ETC a) {

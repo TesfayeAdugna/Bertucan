@@ -1,8 +1,10 @@
+import 'package:bertucanfrontend/ui/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:abushakir/abushakir.dart';
 import 'blocs/blocs.dart';
 import 'size_config.dart';
+import 'package:get/get.dart';
 
 class SelectableEthioCalendar extends StatefulWidget {
   @override
@@ -11,9 +13,12 @@ class SelectableEthioCalendar extends StatefulWidget {
 }
 
 class _SelectableEthioCalendarState extends State<SelectableEthioCalendar> {
-  static double imageSizeMultiplier = SizeConfig.imageSizeMultiplier?.toDouble() ?? 1;
+  static double imageSizeMultiplier =
+      SizeConfig.imageSizeMultiplier?.toDouble() ?? 1;
   static double widthMultiplier = SizeConfig.widthMultiplier?.toDouble() ?? 1;
   static double heightMultiplier = SizeConfig.heightMultiplier?.toDouble() ?? 1;
+  HomeController _homeController = Get.find();
+  Map dateColor = Map();
 
   EtDatetime selected_date = EtDatetime.now();
   bool flag = true;
@@ -103,8 +108,11 @@ class _SelectableEthioCalendarState extends State<SelectableEthioCalendar> {
                                             TextStyle(color: Colors.orange))),
                                 TextButton(
                                     onPressed: () {
-                                      return Navigator.pop(
-                                          context, selected_date);
+                                      _homeController
+                                          .setSelectedPeriodDate(selected_date);
+                                      dateColor[selected_date] = true;
+
+                                      Get.back();
                                     },
                                     child: const Text("OK",
                                         style: TextStyle(color: Colors.orange)))
@@ -258,8 +266,10 @@ class _SelectableEthioCalendarState extends State<SelectableEthioCalendar> {
                         style: const TextStyle(color: Colors.black),
                       ),
                       decoration: BoxDecoration(
-                        color: current_date.day == selected_date.day &&
-                                current_date.month == selected_date.month
+                        color: current_date.day ==
+                                    selected_date.day&&
+                                current_date.month ==
+                                    selected_date.month
                             ? Colors.orange
                             : Colors.white,
                         border: Border.all(color: Colors.orange),
