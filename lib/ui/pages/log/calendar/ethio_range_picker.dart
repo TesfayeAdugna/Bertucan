@@ -1,9 +1,11 @@
 import 'package:bertucanfrontend/ui/widgets/ethio_day_names.dart';
+import 'package:bertucanfrontend/ui/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:abushakir/abushakir.dart';
 import 'blocs/blocs.dart';
 import 'size_config.dart';
+import 'package:get/get.dart';
 
 class RangePickerEthioCalendar extends StatefulWidget {
   @override
@@ -17,10 +19,10 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
 
   EtDatetime startDate = EtDatetime.now();
   EtDatetime endDate = EtDatetime.now();
+  HomeController _homeController = Get.find();
   bool flag = true;
   bool isstartDateSelected = false;
   bool isEndDateSelected = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +116,9 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                       )),
                   TextButton(
                       onPressed: () {
-                        return Navigator.pop(prevcontext);
+                        _homeController.setPrevStartDate(startDate);
+                        _homeController.setPrevEndDate(endDate);
+                        Get.back();
                       },
                       child: const Text("SAVE",
                           style: TextStyle(color: Colors.white70)))
@@ -127,12 +131,14 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
               isEndDateSelected && isstartDateSelected
                   ? Text(
                       "${slectedETCStartDate.monthName} ${slectedETCStartDate.day} - ${slectedETCEndDate.monthName} ${slectedETCEndDate.day}",
-                      style: const TextStyle(color: Colors.white70, fontSize: 24),
+                      style:
+                          const TextStyle(color: Colors.white70, fontSize: 24),
                     )
                   : isstartDateSelected && !isEndDateSelected
                       ? Text(
                           "${slectedETCStartDate.monthName} ${slectedETCStartDate.day} - የመጨረሻ ቀን",
-                          style: const TextStyle(color: Colors.white70, fontSize: 24),
+                          style: const TextStyle(
+                              color: Colors.white70, fontSize: 24),
                         )
                       : const Text(
                           "የመጀመሪያ ቀን - የመጨረሻ ቀን",
@@ -145,9 +151,8 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
     );
   }
 
-
-
   Widget _daysGridList(BuildContext context, ETC a) {
+    HomeController _homeController = Get.find();
     int lengthOfMonthdays = a.monthDays().toList().length;
     int valueAtIndex3 = a.monthDays().toList()[0][3];
     return Column(
@@ -265,23 +270,25 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                             style: const TextStyle(color: Colors.white),
                           ),
                           decoration: BoxDecoration(
-                          color: (current_date.day == startDate.day &&
-                                  current_date.month == startDate.month) || (current_date.day == endDate.day &&
-                                  current_date.month == endDate.month)
-                              ? Colors.orange
-                              : Color.fromARGB(104, 255, 153, 0),
-                          borderRadius: (current_date.day == startDate.day &&
-                                  current_date.month == startDate.month)
-                              ? const BorderRadius.only(
-                                  bottomLeft: Radius.circular(80),
-                                  topLeft: Radius.circular(80))
-                              : (current_date.day == endDate.day &&
-                                      current_date.month == endDate.month)
-                                  ? const BorderRadius.only(
-                                      bottomRight: Radius.circular(80),
-                                      topRight: Radius.circular(80))
-                                  : BorderRadius.zero,
-                        ),
+                            color: (current_date.day == startDate.day &&
+                                        current_date.month ==
+                                            startDate.month) ||
+                                    (current_date.day == endDate.day &&
+                                        current_date.month == endDate.month)
+                                ? Colors.orange
+                                : Color.fromARGB(104, 255, 153, 0),
+                            borderRadius: (current_date.day == startDate.day &&
+                                    current_date.month == startDate.month)
+                                ? const BorderRadius.only(
+                                    bottomLeft: Radius.circular(80),
+                                    topLeft: Radius.circular(80))
+                                : (current_date.day == endDate.day &&
+                                        current_date.month == endDate.month)
+                                    ? const BorderRadius.only(
+                                        bottomRight: Radius.circular(80),
+                                        topRight: Radius.circular(80))
+                                    : BorderRadius.zero,
+                          ),
                         ));
                   }
                   return GestureDetector(
@@ -310,8 +317,9 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                         width: 2.315 * widthMultiplier,
                         decoration: BoxDecoration(
                           color: (current_date.day == startDate.day &&
-                                  current_date.month == startDate.month) || (current_date.day == endDate.day &&
-                                  current_date.month == endDate.month)
+                                      current_date.month == startDate.month) ||
+                                  (current_date.day == endDate.day &&
+                                      current_date.month == endDate.month)
                               ? Colors.orange
                               : Colors.transparent,
                           borderRadius: (current_date.day == startDate.day &&

@@ -340,7 +340,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return InkWell(
                                     onTap: () async {
                                       if (_authController.isEthio) {
-                                        Get.to(RangePickerEthioCalendar());
+
+                                        showGeneralDialog( 
+                                          context: context, 
+                                          barrierDismissible: true,
+                                          barrierLabel: MaterialLocalizations.of(context)
+                                          .modalBarrierDismissLabel,
+                                          pageBuilder: (BuildContext buildContext,
+                                          Animation animation,
+                                          Animation secondaryAnimation)  => 
+                                          RangePickerEthioCalendar(),
+                                          
+                                          ).then((value) => {
+
+                                            
+                                            
+                                            if (_homeController.prevEndDate != null && _homeController.prevStartDate != null){
+                                              
+
+                                              _homeController.addPreviousCycle(
+                                              
+                                                MonthlyMensturationModel(
+                                                    startDate: _homeController.prevStartDate,
+                                                    endDate: _homeController.prevEndDate))
+
+                                            }
+                                            
+
+                                            
+                                          });
+
                                       } else {
                                         await showDateRangePicker(
                                                 context: context,

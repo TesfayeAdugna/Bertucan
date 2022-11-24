@@ -14,7 +14,21 @@ class HomeController extends GetxController {
   HomeController(this._repository);
 
   EtDatetime _selectedPeriodDate = EtDatetime.now();
+  EtDatetime _prevStartDate = EtDatetime.now();
+  EtDatetime _prevEndDate = EtDatetime.now();
 
+  void setPrevStartDate(date) {
+    _prevStartDate = date;
+    update();
+  }
+
+  void setPrevEndDate(date) {
+    _prevEndDate = date;
+    update();
+  }
+
+  get prevStartDate => _prevStartDate;
+  get prevEndDate => _prevEndDate;
   EtDatetime get selectedPeriodDate => _selectedPeriodDate;
 
   void setSelectedPeriodDate(date) {
