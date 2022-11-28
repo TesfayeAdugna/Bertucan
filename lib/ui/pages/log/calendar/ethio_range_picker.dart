@@ -99,7 +99,7 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
               horizontal: 4.63 * widthMultiplier,
               vertical: 1.838 * heightMultiplier),
           color: Colors.orange,
-          height: 20 * heightMultiplier,
+          height: 19 * heightMultiplier,
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -220,7 +220,7 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                                 ? Colors.orange
                                 : Colors.white,
                             border: Border.all(color: Colors.orange),
-                            borderRadius: BorderRadius.circular(55),
+                            borderRadius: BorderRadius.circular(80),
                           ),
                           child: Text(
                             "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
@@ -243,6 +243,8 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                   } else if (current_date.isAfter(startDate) &&
                       current_date
                           .isBefore(endDate.add(const Duration(days: 1)))) {
+
+                    //the Right one on which the end date is located on
                     return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -263,7 +265,27 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                             }
                           });
                         },
-                        child: Container(
+                        child: Stack(children: [
+                          Container(
+                          alignment: Alignment.center,
+                          // height: 1.225 * heightMultiplier,
+                          // width: (2.315 * widthMultiplier),
+                          decoration: BoxDecoration(
+                            color:(current_date.day == endDate.day &&
+                                        current_date.month == endDate.month)
+                                ? Color.fromARGB(104, 255, 153, 0)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(80),
+                              bottomRight: Radius.circular(80)
+                            )
+                            
+                          ),
+                          
+                          
+                        ),
+                          
+                          Container(
                           alignment: Alignment.center,
                           child: Text(
                             "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
@@ -284,13 +306,15 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                                     topLeft: Radius.circular(80))
                                 : (current_date.day == endDate.day &&
                                         current_date.month == endDate.month)
-                                    ? const BorderRadius.only(
-                                        bottomRight: Radius.circular(80),
-                                        topRight: Radius.circular(80))
+                                    ? const BorderRadius.all(
+                                        Radius.circular(80))
                                     : BorderRadius.zero,
                           ),
-                        ));
+                        )]));
                   }
+
+
+                  // the left one the one tha start date is located on
                   return GestureDetector(
                       onTap: () {
                         setState(() {
@@ -311,38 +335,49 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                           }
                         });
                       },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 1.225 * heightMultiplier,
-                        width: 2.315 * widthMultiplier,
-                        decoration: BoxDecoration(
-                          color: (current_date.day == startDate.day &&
-                                      current_date.month == startDate.month) ||
-                                  (current_date.day == endDate.day &&
-                                      current_date.month == endDate.month)
-                              ? Colors.orange
-                              : Colors.transparent,
-                          borderRadius: (current_date.day == startDate.day &&
-                                  current_date.month == startDate.month)
-                              ? const BorderRadius.only(
-                                  bottomLeft: Radius.circular(80),
-                                  topLeft: Radius.circular(80))
-                              : (current_date.day == endDate.day &&
-                                      current_date.month == endDate.month)
-                                  ? const BorderRadius.only(
-                                      bottomRight: Radius.circular(80),
-                                      topRight: Radius.circular(80))
-                                  : BorderRadius.circular(80),
+                      child: Stack(fit: StackFit.expand, children: [
+                        
+                        Container(
+                          alignment: Alignment.center,
+                          // height: 1.225 * heightMultiplier,
+                          // width: (2.315 * widthMultiplier),
+                          decoration: BoxDecoration(
+                            color: isEndDateSelected && current_date.day == startDate.day && current_date.month == startDate.month
+                                ? Color.fromARGB(104, 255, 153, 0)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(80),
+                              bottomLeft: Radius.circular(80)
+                            )
+                            
+                          ),
+                          
+                          
                         ),
-                        child: Text(
-                          "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
-                          style: TextStyle(
-                              color: current_date.day == startDate.day &&
-                                      current_date.month == startDate.month
-                                  ? Colors.white
-                                  : Colors.black),
-                        ),
-                      ));
+                        Container(
+                          alignment: Alignment.center,
+                          height: 1.225 * heightMultiplier,
+                          width: 2.315 * widthMultiplier,
+                          decoration: BoxDecoration(
+                            color: (current_date.day == startDate.day &&
+                                        current_date.month ==
+                                            startDate.month) ||
+                                    (current_date.day == endDate.day &&
+                                        current_date.month == endDate.month)
+                                ? Colors.orange
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.all(Radius.circular(80)),
+                          ),
+                          child: Text(
+                            "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
+                            style: TextStyle(
+                                color: current_date.day == startDate.day &&
+                                        current_date.month == startDate.month
+                                    ? Colors.white
+                                    : Colors.black),
+                          ),
+                        )
+                      ]));
                 }
               },
             )),
