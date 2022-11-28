@@ -1,13 +1,16 @@
 import 'package:bertucanfrontend/shared/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:abushakir/abushakir.dart';
+import 'package:bertucanfrontend/ui/controllers/home_controller.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class EthioSelectableDates extends StatelessWidget {
   final List<EtDatetime> selectableDates;
   final EtDatetime selectedDate;
   final Function setSelectedDate;
-  const EthioSelectableDates(
+  HomeController _homeController = Get.find();
+  EthioSelectableDates(
       {Key? key,
       required this.selectableDates,
       required this.selectedDate,
@@ -37,6 +40,7 @@ class EthioSelectableDates extends StatelessWidget {
                 DateTime.fromMillisecondsSinceEpoch(date.moment);
             return InkWell(
               onTap: () {
+                _homeController.setSelectedDateInit(true);
                 setSelectedDate(
                     DateTime.fromMillisecondsSinceEpoch(date.moment));
               },
@@ -44,7 +48,8 @@ class EthioSelectableDates extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 10),
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: selectedDate.day == date.day
+                  color: _homeController.selectedDateInit &&
+                          selectedDate.day == date.day
                       ? AppTheme.secondaryColor
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(4),
@@ -57,7 +62,8 @@ class EthioSelectableDates extends StatelessWidget {
                         style: AppTheme.greySubtitleStyle),
                     Text("${date.day}",
                         style: AppTheme.titleStyle4.copyWith(
-                            color: selectedDate.day == date.day
+                            color: _homeController.selectedDateInit &&
+                                    selectedDate.day == date.day
                                 ? AppTheme.white
                                 : AppTheme.textBlack))
                   ],

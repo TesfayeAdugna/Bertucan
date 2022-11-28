@@ -36,6 +36,14 @@ class HomeController extends GetxController {
     update();
   }
 
+  bool _selectedDateInit = false;
+
+  bool get selectedDateInit => _selectedDateInit;
+  void setSelectedDateInit(val) {
+    _selectedDateInit = val;
+    update();
+  }
+
   final _selectedDate = DateTime.now().obs;
   DateTime get selectedDate => _selectedDate.value;
   set selectedDate(DateTime value) => _selectedDate.value = value;
