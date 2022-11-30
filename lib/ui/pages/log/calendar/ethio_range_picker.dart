@@ -187,7 +187,7 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                           setState(() {
                             if (!isstartDateSelected && !isEndDateSelected) {
                               startDate = current_date;
-                              endDate = current_date;
+                              // endDate = current_date;
                               isstartDateSelected = true;
                             } else if (isstartDateSelected &&
                                 !isEndDateSelected &&
@@ -202,27 +202,55 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                             }
                           });
                         },
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 1.225 * heightMultiplier,
-                          width: 2.315 * widthMultiplier,
-                          decoration: BoxDecoration(
-                            color: current_date.day == startDate.day &&
-                                    current_date.month == startDate.month
-                                ? Colors.orange
-                                : Colors.white,
-                            border: Border.all(color: Colors.orange),
-                            borderRadius: BorderRadius.circular(80),
+                        child: Stack(fit: StackFit.expand, children: [
+                          Container(
+                            alignment: Alignment.center,
+                            height: 1.225 * heightMultiplier,
+                            width: 2.315 * widthMultiplier,
+                            decoration: BoxDecoration(
+                                color: current_date.day == endDate.day &&
+                                        current_date.month == endDate.month &&
+                                        startDate.day != endDate.day &&
+                                        startDate.month != endDate
+                                    ? Color.fromARGB(104, 255, 153, 0)
+                                    : Colors.white,
+                                border: Border.all(
+                                    color: current_date.day == endDate.day &&
+                                            current_date.month ==
+                                                endDate.month &&
+                                            startDate.day != endDate.day &&
+                                            startDate.month != endDate.month
+                                        ? Colors.orange
+                                        : Colors.transparent),
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(80),
+                                    bottomRight: Radius.circular(80))),
                           ),
-                          child: Text(
-                            "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
-                            style: TextStyle(
-                                color: current_date.day == startDate.day &&
-                                        current_date.month == startDate.month
-                                    ? Colors.white
-                                    : Colors.black),
-                          ),
-                        ));
+                          Container(
+                            alignment: Alignment.center,
+                            height: 1.225 * heightMultiplier,
+                            width: 2.315 * widthMultiplier,
+                            decoration: BoxDecoration(
+                              color: current_date.day == startDate.day &&
+                                          current_date.month ==
+                                              startDate.month ||
+                                      current_date.day == endDate.day &&
+                                          current_date.month == endDate.month
+                                  ? Colors.orange
+                                  : Colors.white,
+                              border: Border.all(color: Colors.orange),
+                              borderRadius: BorderRadius.circular(80),
+                            ),
+                            child: Text(
+                              "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
+                              style: TextStyle(
+                                  color: current_date.day == startDate.day &&
+                                          current_date.month == startDate.month
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
+                          )
+                        ]));
                   } else if (current_date.isAfter(EtDatetime.now())) {
                     return Container(
                         alignment: Alignment.center,
@@ -329,7 +357,8 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                           decoration: BoxDecoration(
                               color: isEndDateSelected &&
                                       current_date.day == startDate.day &&
-                                      current_date.month == startDate.month
+                                      current_date.month == startDate.month &&
+                                      startDate.day != endDate.day
                                   ? Color.fromARGB(104, 255, 153, 0)
                                   : Colors.transparent,
                               borderRadius: BorderRadius.only(
