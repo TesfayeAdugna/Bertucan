@@ -49,14 +49,8 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                           ETC current = month;
                           List<Widget> list = [];
                           for (var i = 0; i < 15; i++) {
-                            if (i == 0) {
-                              list.add(Container(
-                                height: 37.5 * heightMultiplier,
-                              ));
-                            } else {
-                              list.add(_daysGridList(context, current));
-                              current = current.prevMonth;
-                            }
+                            list.add(_daysGridList(context, current));
+                            current = current.prevMonth;
                           }
                           return Column(
                             children: <Widget>[
@@ -92,62 +86,60 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
         ETC(year: startDate.year, month: startDate.month, day: startDate.day);
     ETC slectedETCEndDate =
         ETC(year: endDate.year, month: endDate.month, day: endDate.day);
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: 4.63 * widthMultiplier,
-              vertical: 1.838 * heightMultiplier),
-          color: Colors.orange,
-          height: 19 * heightMultiplier,
-          width: double.infinity,
-          child: Column(
+    return Container(
+      padding: EdgeInsets.symmetric(
+          horizontal: 4.63 * widthMultiplier,
+          vertical: 1.838 * heightMultiplier),
+      height: 20 * heightMultiplier,
+      width: double.infinity,
+      decoration: const BoxDecoration(color: Colors.orange, boxShadow: [
+        BoxShadow(
+            blurRadius: 2, color: Colors.black38, offset: Offset(0.1, 0.1))
+      ]),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                      onPressed: () => Navigator.pop(prevcontext),
-                      icon: const Icon(
-                        Icons.close,
-                        color: Colors.white,
-                      )),
-                  TextButton(
-                      onPressed: () {
-                        _homeController.setPrevStartDate(startDate);
-                        _homeController.setPrevEndDate(endDate);
-                        Get.back();
-                      },
-                      child: const Text("SAVE",
-                          style: TextStyle(color: Colors.white70)))
-                ],
-              ),
-              const Text(
-                "የቀን ክልል ይምረጡ",
-                style: TextStyle(color: Colors.white),
-              ),
-              isEndDateSelected && isstartDateSelected
+              IconButton(
+                  onPressed: () => Navigator.pop(prevcontext),
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  )),
+              TextButton(
+                  onPressed: () {
+                    _homeController.setPrevStartDate(startDate);
+                    _homeController.setPrevEndDate(endDate);
+                    Get.back();
+                  },
+                  child: const Text("SAVE",
+                      style: TextStyle(color: Colors.white70)))
+            ],
+          ),
+          const Text(
+            "የቀን ክልል ይምረጡ",
+            style: TextStyle(color: Colors.white),
+          ),
+          isEndDateSelected && isstartDateSelected
+              ? Text(
+                  "${slectedETCStartDate.monthName} ${slectedETCStartDate.day} - ${slectedETCEndDate.monthName} ${slectedETCEndDate.day}",
+                  style: const TextStyle(color: Colors.white70, fontSize: 24),
+                )
+              : isstartDateSelected && !isEndDateSelected
                   ? Text(
-                      "${slectedETCStartDate.monthName} ${slectedETCStartDate.day} - ${slectedETCEndDate.monthName} ${slectedETCEndDate.day}",
+                      "${slectedETCStartDate.monthName} ${slectedETCStartDate.day} - የመጨረሻ ቀን",
                       style:
                           const TextStyle(color: Colors.white70, fontSize: 24),
                     )
-                  : isstartDateSelected && !isEndDateSelected
-                      ? Text(
-                          "${slectedETCStartDate.monthName} ${slectedETCStartDate.day} - የመጨረሻ ቀን",
-                          style: const TextStyle(
-                              color: Colors.white70, fontSize: 24),
-                        )
-                      : const Text(
-                          "የመጀመሪያ ቀን - የመጨረሻ ቀን",
-                          style: TextStyle(color: Colors.white70, fontSize: 24),
-                        ),
-            ],
-          ),
-        ),
-      ],
+                  : const Text(
+                      "የመጀመሪያ ቀን - የመጨረሻ ቀን",
+                      style: TextStyle(color: Colors.white70, fontSize: 24),
+                    ),
+        ],
+      ),
     );
   }
 
@@ -243,7 +235,6 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                   } else if (current_date.isAfter(startDate) &&
                       current_date
                           .isBefore(endDate.add(const Duration(days: 1)))) {
-
                     //the Right one on which the end date is located on
                     return GestureDetector(
                         onTap: () {
@@ -267,52 +258,47 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                         },
                         child: Stack(children: [
                           Container(
-                          alignment: Alignment.center,
-                          // height: 1.225 * heightMultiplier,
-                          // width: (2.315 * widthMultiplier),
-                          decoration: BoxDecoration(
-                            color:(current_date.day == endDate.day &&
+                            alignment: Alignment.center,
+                            // height: 1.225 * heightMultiplier,
+                            // width: (2.315 * widthMultiplier),
+                            decoration: BoxDecoration(
+                                color: (current_date.day == endDate.day &&
                                         current_date.month == endDate.month)
-                                ? Color.fromARGB(104, 255, 153, 0)
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(80),
-                              bottomRight: Radius.circular(80)
-                            )
-                            
+                                    ? Color.fromARGB(104, 255, 153, 0)
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(80),
+                                    bottomRight: Radius.circular(80))),
                           ),
-                          
-                          
-                        ),
-                          
                           Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          decoration: BoxDecoration(
-                            color: (current_date.day == startDate.day &&
-                                        current_date.month ==
-                                            startDate.month) ||
-                                    (current_date.day == endDate.day &&
-                                        current_date.month == endDate.month)
-                                ? Colors.orange
-                                : Color.fromARGB(104, 255, 153, 0),
-                            borderRadius: (current_date.day == startDate.day &&
-                                    current_date.month == startDate.month)
-                                ? const BorderRadius.only(
-                                    bottomLeft: Radius.circular(80),
-                                    topLeft: Radius.circular(80))
-                                : (current_date.day == endDate.day &&
-                                        current_date.month == endDate.month)
-                                    ? const BorderRadius.all(
-                                        Radius.circular(80))
-                                    : BorderRadius.zero,
-                          ),
-                        )]));
+                            alignment: Alignment.center,
+                            child: Text(
+                              "${a.monthDays().toList()[(index - a.monthDays().toList()[0][3]).toInt()][2]}",
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            decoration: BoxDecoration(
+                              color: (current_date.day == startDate.day &&
+                                          current_date.month ==
+                                              startDate.month) ||
+                                      (current_date.day == endDate.day &&
+                                          current_date.month == endDate.month)
+                                  ? Colors.orange
+                                  : Color.fromARGB(104, 255, 153, 0),
+                              borderRadius: (current_date.day ==
+                                          startDate.day &&
+                                      current_date.month == startDate.month)
+                                  ? const BorderRadius.only(
+                                      bottomLeft: Radius.circular(80),
+                                      topLeft: Radius.circular(80))
+                                  : (current_date.day == endDate.day &&
+                                          current_date.month == endDate.month)
+                                      ? const BorderRadius.all(
+                                          Radius.circular(80))
+                                      : BorderRadius.zero,
+                            ),
+                          )
+                        ]));
                   }
-
 
                   // the left one the one tha start date is located on
                   return GestureDetector(
@@ -336,23 +322,19 @@ class _RangePickerEthioCalendarState extends State<RangePickerEthioCalendar> {
                         });
                       },
                       child: Stack(fit: StackFit.expand, children: [
-                        
                         Container(
                           alignment: Alignment.center,
                           // height: 1.225 * heightMultiplier,
                           // width: (2.315 * widthMultiplier),
                           decoration: BoxDecoration(
-                            color: isEndDateSelected && current_date.day == startDate.day && current_date.month == startDate.month
-                                ? Color.fromARGB(104, 255, 153, 0)
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(80),
-                              bottomLeft: Radius.circular(80)
-                            )
-                            
-                          ),
-                          
-                          
+                              color: isEndDateSelected &&
+                                      current_date.day == startDate.day &&
+                                      current_date.month == startDate.month
+                                  ? Color.fromARGB(104, 255, 153, 0)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(80),
+                                  bottomLeft: Radius.circular(80))),
                         ),
                         Container(
                           alignment: Alignment.center,
