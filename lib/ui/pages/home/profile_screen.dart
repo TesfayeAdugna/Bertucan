@@ -241,6 +241,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             style: AppTheme.hintTextStyle,
                           ),
                           onChanged: (value) {
+                            if (value?.languageCode == 'am' &&
+                                value?.countryCode == 'ET') {
+                              _authController.setArticleLanguage("AMHARIC");
+                            } else if (value?.languageCode == 'or' &&
+                                value?.countryCode == "ET") {
+                              _authController.setArticleLanguage("OROMIFFA");
+                            } else if (value?.languageCode == "tg" &&
+                                value?.countryCode == "ET") {
+                              _authController.setArticleLanguage("TIGRINYA");
+                            } else if (value?.languageCode == 'en' &&
+                                value?.countryCode == "US") {
+                              _authController.setArticleLanguage("ENGLISH");
+                            }
                             if (value != null) {
                               _authController.setLocale(value);
                             }
@@ -289,10 +302,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               value: Locale('am', 'ET'),
                               child: Text('Ethiopian'),
                             ),
-                           
                           ]),
                     ),
-                    
                     _authController.user.id != -1
                         ? Column(
                             children: [

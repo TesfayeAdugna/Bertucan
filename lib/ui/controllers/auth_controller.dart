@@ -13,6 +13,14 @@ import 'package:get/get.dart';
 class AuthController extends GetxController {
   final IAuthRepository _authRepository;
   bool _isEthioCal = true;
+  String _articleLanguage = 'AMHARIC';
+
+  void setArticleLanguage(lang) {
+    _articleLanguage = lang;
+    update();
+  }
+
+  String get articleLanguage => _articleLanguage;
 
   bool get isEthio => _isEthioCal;
 
