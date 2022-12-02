@@ -31,7 +31,7 @@ class _SrhScreenState extends State<SrhScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 42, 41, 40),
+      backgroundColor: AppTheme.creamyBackground,
       body: Padding(
         padding: EdgeInsets.all(10),
         child: Column(

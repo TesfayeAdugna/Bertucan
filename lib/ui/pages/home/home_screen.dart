@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:abushakir/abushakir.dart';
 import 'package:bertucanfrontend/core/models/simple_models.dart';
+import 'package:bertucanfrontend/core/services/notification_service.dart';
 import 'package:bertucanfrontend/shared/routes/app_routes.dart';
 import 'package:bertucanfrontend/shared/themes/app_theme.dart';
 import 'package:bertucanfrontend/ui/components/daily_insights.dart';
@@ -54,6 +55,31 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     _homeController.getPredictedDates();
+    for (int i = 0; i < _homeController.predictedDates.length; i++) {
+      int periodafter = 0;
+      DateTime currentDate = DateTime.now();
+      if (currentDate.isAfter(_homeController.currentMenstruation.startDate)) {
+        if (currentDate.isBefore(_homeController.currentMenstruation.endDate)) {
+          periodafter = 0;
+        } else {
+          periodafter = _homeController.currentMenstruation.startDate
+              .add(Duration(
+                  days: _homeController.userLogData?.daysToStart ?? 0))
+              .difference(currentDate)
+              .inDays;
+        }
+      } else {
+        periodafter = _homeController.currentMenstruation.startDate
+            .difference(currentDate)
+            .inDays;
+      }
+      if (periodafter == 0){
+      }
+      else{
+      NotificationService()
+          .scheduledNotification("period after ${periodafter} days.", "hello", Duration(seconds: 1), 5);
+      }
+    }
   }
 
   @override
@@ -340,36 +366,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return InkWell(
                                     onTap: () async {
                                       if (_authController.isEthio) {
-
-                                        showGeneralDialog( 
-                                          context: context, 
+                                        showGeneralDialog(
+                                          context: context,
                                           barrierDismissible: true,
-                                          barrierLabel: MaterialLocalizations.of(context)
-                                          .modalBarrierDismissLabel,
-                                          pageBuilder: (BuildContext buildContext,
-                                          Animation animation,
-                                          Animation secondaryAnimation)  => 
-                                          RangePickerEthioCalendar(),
-                                          
-                                          ).then((value) => {
-
-                                            
-                                            
-                                            if (_homeController.prevEndDate != null && _homeController.prevStartDate != null){
-                                              
-
-                                              _homeController.addPreviousCycle(
-                                              
-                                                MonthlyMensturationModel(
-                                                    startDate: _homeController.prevStartDate,
-                                                    endDate: _homeController.prevEndDate))
-
-                                            }
-                                            
-
-                                            
-                                          });
-
+                                          barrierLabel:
+                                              MaterialLocalizations.of(context)
+                                                  .modalBarrierDismissLabel,
+                                          pageBuilder:
+                                              (BuildContext buildContext,
+                                                      Animation animation,
+                                                      Animation
+                                                          secondaryAnimation) =>
+                                                  RangePickerEthioCalendar(),
+                                        ).then((value) => {
+                                              if (_homeController.prevEndDate !=
+                                                      null &&
+                                                  _homeController
+                                                          .prevStartDate !=
+                                                      null)
+                                                {
+                                                  _homeController.addPreviousCycle(
+                                                      MonthlyMensturationModel(
+                                                          startDate:
+                                                              _homeController
+                                                                  .prevStartDate,
+                                                          endDate:
+                                                              _homeController
+                                                                  .prevEndDate))
+                                                }
+                                            });
                                       } else {
                                         await showDateRangePicker(
                                                 context: context,
